@@ -1,6 +1,5 @@
 from tkinter import * 
 from tkinter import messagebox
-from patient import *
 from covid_ai_bridge import CovidAIBrigde
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------
