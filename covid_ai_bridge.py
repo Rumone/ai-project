@@ -1,13 +1,16 @@
 from pyswip import Prolog
+
+
 class CovidAIBrigde:
     """
     Communicates directly with prolog scripts to return diagnosis
     """
+
     def __init__(self, name, log=False):
         self.prolog = Prolog()
         self.patient_name = name.split(" ")[0].lower()
         self.log = log
-    
+
     def store_home_parish(self, parish):
         """
         Store the patient current home parish
@@ -23,7 +26,7 @@ class CovidAIBrigde:
         self.prolog.asserta(query_string)
 
         if self.log:
-            self.__log_function(query_string) 
+            self.__log_function(query_string)
 
     def store_symptoms(self, symptoms):
         """
@@ -31,7 +34,8 @@ class CovidAIBrigde:
         Parameters:
             symptoms(list): What symptoms does the patients
         """
-        query_strings = [f"has_symptom({self.patient_name}, '{symptom}')" for symptom in symptoms]
+        query_strings = [
+            f"has_symptom({self.patient_name}, '{symptom}')" for symptom in symptoms]
         for query_string in query_strings:
             self.prolog.asserta(query_string)
 
@@ -50,7 +54,7 @@ class CovidAIBrigde:
 
         if self.log:
             self.__log_function(query_string)
-    
+
     def store_patient_activities(self, wm, t, s, p):
         """
         Store the patient activities that could contribute to diagnosis
@@ -69,22 +73,41 @@ class CovidAIBrigde:
         self.prolog.asserta(query_string_travel)
         self.prolog.asserta(query_string_sanitize)
         self.prolog.asserta(query_string_party)
-        
+
         if (self.log):
-            self.__log_function(query_string_mask)        
-            self.__log_function(query_string_travel)    
+            self.__log_function(query_string_mask)
+            self.__log_function(query_string_travel)
             self.__log_function(query_string_sanitize)
             self.__log_function(query_string_party)
-    
+
     def diagnose(self):
         """
         Diagnosis and returns a value for how much the chances this patient has covid
-        """    
+        """
         results = list(self.prolog.query(f"has_covid({self.patient_name}, X)"))
-        return results[0]
-    
+        return results
+
     def __log_function(self, string):
         """
         prints out any string passed in with specific format
         """
-        print(f"I KNOW: {string}")
+        print(f"I KNOW: {string}.")
+
+    def memory_wipe(self):
+        """
+        wipe information about patient from the agents memory
+        """
+        # define predicate strings
+        query_string_symptom = f"has_symptoms({self.patient_name},_)"
+        query_string_parish = f"from_parish({self.patient_name},_)"
+        query_string_temp = f"patient_temperature({self.patient_name},_)"
+        query_string_mask = f"wears_mask({self.patient_name},_)"
+        query_string_travel = f"travels({self.patient_name},_)"
+        query_string_sanitize = f"sanitizes({self.patient_name},_)"
+        query_string_party = f"goes_parties({self.patient_name},_)"
+
+        self.prolog.retractall(query_string_symptom)
+
+        self.prolog.retract(query_string_parish)
+
+        print(list(self.prolog.query(f"has_symptoms({self.patient_name, X})")))
