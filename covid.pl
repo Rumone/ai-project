@@ -130,37 +130,3 @@ has_covid(Name, Perc) :-
     perc_temperature(Name, Temp_Value),
     perc_actions(Name, Actions_Value),
     Perc is (Parish_Value + Symptom_Value + Temp_Value + Actions_Value)/4.
-
-
-
-
-
-% THESE SCRIPTS ARE USED TO TEST IF THE SCRIPT IS WORKING AS INTENDED DOES NOT HAVE ANY EFFECT AON THE KNOWLEDGEBASE
-% ALSO ACT AS A MARKER FOR THE KINDS OF INPUT THIS SCRIPT WILL TAKE
-% ---------------------------------------
-% WHAT RULES ARE THE PATIENT FOLLOWING 🤔
-% ---------------------------------------
-% wears_mask(rumone, no).
-% travels(rumone, no).
-% sanitizes(rumone, no).
-% goes_parties(rumone, no).
-% % ---------------------
-% % WHERE ARE YOU FROM 🤔
-% % ---------------------
-% from_parish(rumone, kingston).
-% % --------------------
-% % TEMPERATURE CHECK 🤔
-% % ---------------------
-% % The temperature should be converted to correct format before query
-% patient_temperature(rumone, 50).
-% % ---------------------
-% % SYMPTOMS CHECKER 🤔
-% % ---------------------
-% % Symptoms will be a list of all the symptoms
-% has_symptom(rumone, 'Cough').
-% has_symptom(rumone, 'Diarrhea'). 
-% has_symptom(rumone, 'Congestion or runny nose').
-% has_symptom(rumone, 'New loss of taste or smell').
-% has_symptom(rumone, 'Sore throat').
-% has_symptom(rumone, 'Nausea or vomiting').
-% has_symptom(rumone, 'Headache').
