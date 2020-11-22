@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+from PIL import ImageTk, Image
 from covid_ai_bridge import CovidAIBrigde
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -133,6 +134,7 @@ TEXT_FONT_SIZE = 9
 
 
 # all frames
+header_frame = Frame(app)
 section_1_frame = LabelFrame(
     app, text="What should I call you?", font=(TEXT_FONT, 11))
 section_2_frame = LabelFrame(
@@ -144,8 +146,10 @@ section_4_frame = LabelFrame(
 section_5_frame = Frame(app)
 section_6_frame = Frame(app)
 
+header_frame.configure(bg="#fff")
 section_6_frame.configure(bg="#333")
 
+header_frame.pack(fill=X, ipady=10, side=TOP)
 section_1_frame.pack(fill=X, padx=10, pady=5, ipadx=10, ipady=10)
 section_2_frame.pack(fill=X, padx=10, pady=5, ipadx=10, ipady=10)
 section_3_frame.pack(fill=X, padx=10, pady=5, ipadx=10, ipady=10)
@@ -177,14 +181,22 @@ symptom10 = IntVar()
 symptom11 = IntVar()
 
 
+# IMAGES
+logo_path = "assets\\LOGO.png"
+logo = ImageTk.PhotoImage(Image.open(logo_path))
+
+
+Label(header_frame, image=logo, bg="#fff").pack()
+
+
 Label(section_1_frame, text="First Name", font=(
     TEXT_FONT, TEXT_FONT_SIZE)).grid(row=0, column=0, padx=10, sticky=W)
-Entry(section_1_frame, textvariable=first_name, relief=FLAT, font=(
+Entry(section_1_frame, textvariable=first_name, relief=GROOVE, font=(
     TEXT_FONT, TEXT_FONT_SIZE)).grid(row=1, column=0, padx=10, sticky=W)
 
 Label(section_1_frame, text="Last Name", font=(
     TEXT_FONT, TEXT_FONT_SIZE)).grid(row=0, column=2, padx=10, sticky=W)
-Entry(section_1_frame, textvariable=last_name, relief=FLAT, bd=1, font=(
+Entry(section_1_frame, textvariable=last_name, relief=GROOVE, bd=1, font=(
     TEXT_FONT, TEXT_FONT_SIZE)).grid(row=1, column=2, padx=10, sticky=W)
 
 
@@ -258,13 +270,13 @@ Checkbutton(section_4_frame, variable=symptom11, onvalue=1,
 
 Label(section_5_frame, text="What is your temperature?", font=(
     TEXT_FONT, TEXT_FONT_SIZE)).grid(row=0, column=0, padx=10, sticky=W)
-Entry(section_5_frame, textvariable=temp, relief=FLAT, font=(
+Entry(section_5_frame, textvariable=temp, relief=GROOVE, font=(
     TEXT_FONT, TEXT_FONT_SIZE)).grid(row=1, column=0, padx=10, sticky=W)
 
 
-Button(section_6_frame, text="Submit", height=2, width=10, bg="#e5625e", fg="#fff", activebackground='#e5625e',
+Button(section_6_frame, text="Submit", height=2, width=10, bg="#FFB52F", fg="#fff", activebackground='#e5625e',
        relief=FLAT, command=sendResults).grid(row=0, column=0, sticky=W, pady=15, padx=10)
-Label(section_6_frame, text='✔ Whenever you are done please press this button', font=(
+Label(section_6_frame, text='ℹ Whenever you are done please press this button', font=(
     TEXT_FONT, TEXT_FONT_SIZE), padx=5, bg="#333", fg="#fff").grid(row=0, column=1, sticky=W)
 
 parish_options.grid(row=2, column=0, sticky=W, padx=10)
