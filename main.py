@@ -77,25 +77,27 @@ def sendResults():
 
     # messagebox.showinfo("Pending", "I am processing your information")
     form_values = getFormValues()
-    covid_ai = CovidAIBrigde(form_values["patient_name"], True)
+    covid_ai = CovidAIBrigde(form_values["patient_name"])
     covid_ai.store_patient_activities(
         form_values["wears_mask"], form_values["travels"], form_values["sanitizes"], form_values["parties"])
     covid_ai.store_temperature(form_values["temp"])
     covid_ai.store_symptoms(form_values["symptoms"])
     covid_ai.store_home_parish(form_values['current_parish'])
 
-    diagnosis = covid_ai.diagnose()
-    print(diagnosis)
-    # diagnosis_accuracy = diagnosis * 100
-    # if (diagnosis_accuracy >= 50 and diagnosis_accuracy <= 75):
-    #     messagebox.showinfo(
-    #         "Results", "You may test positive for COVID 19, please take a real test if you can")
-    # elif (diagnosis_accuracy > 75):
-    #     messagebox.showinfo(
-    #         "Results", "Based on your answers I think you positive for COVID 19, please take a real test immediately for confirmation")
-    # else:
-    #     messagebox.showinfo(
-    #         "Results", "I have no reason to believe you have COVID-19, however, I recommend you still take a real test")
+    diagnosis = covid_ai.diagnose()['X']
+
+    diagnosis_accuracy = diagnosis * 100
+    if (diagnosis_accuracy >= 50 and diagnosis_accuracy <= 75):
+        messagebox.showinfo(
+            "Results", "You may test positive for COVID 19, please take a real test if you can")
+    elif (diagnosis_accuracy > 75):
+        messagebox.showinfo(
+            "Results", "Based on your answers I think you positive for COVID 19, please take a real test immediately for confirmation")
+    else:
+        messagebox.showinfo(
+            "Results", "I have no reason to believe you have COVID-19, however, I recommend you still take a real test")
+
+    covid_ai.memory_wipe()
 
 
 # Initializes the tk library

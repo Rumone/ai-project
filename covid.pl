@@ -130,19 +130,3 @@ has_covid(Name, Perc) :-
     perc_temperature(Name, Temp_Value),
     perc_actions(Name, Actions_Value),
     Perc is (Parish_Value + Symptom_Value + Temp_Value + Actions_Value)/4.
-
-
-wears_mask(rumone, yes).
-travels(rumone, yes).
-sanitizes(rumone, yes).
-goes_parties(rumone, yes).
-patient_temperature(rumone, 32).
-has_symptom(rumone, 'Fever or chills').
-has_symptom(rumone, 'Cough').
-has_symptom(rumone, 'Shortness of breath or difficulty breathing').
-has_symptom(rumone, 'New loss of taste or smell').
-has_symptom(rumone, 'Fatigue').
-has_symptom(rumone, 'Muscle or body aches').
-has_symptom(rumone, 'Headache').
-has_symptom(rumone, 'Sore throat').
-from_parish(rumone, kingston).

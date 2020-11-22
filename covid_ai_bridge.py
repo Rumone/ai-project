@@ -11,6 +11,8 @@ class CovidAIBrigde:
         self.patient_name = name.split(" ")[0].lower()
         self.log = log
 
+        self.prolog.consult('covid.pl')
+
     def store_home_parish(self, parish):
         """
         Store the patient current home parish
@@ -85,7 +87,7 @@ class CovidAIBrigde:
         Diagnosis and returns a value for how much the chances this patient has covid
         """
         results = list(self.prolog.query(f"has_covid({self.patient_name}, X)"))
-        return results
+        return results[0]
 
     def __log_function(self, string):
         """
@@ -98,7 +100,7 @@ class CovidAIBrigde:
         wipe information about patient from the agents memory
         """
         # define predicate strings
-        query_string_symptom = f"has_symptoms({self.patient_name},_)"
+        query_string_symptom = f"has_symptom({self.patient_name},_)"
         query_string_parish = f"from_parish({self.patient_name},_)"
         query_string_temp = f"patient_temperature({self.patient_name},_)"
         query_string_mask = f"wears_mask({self.patient_name},_)"
@@ -107,7 +109,9 @@ class CovidAIBrigde:
         query_string_party = f"goes_parties({self.patient_name},_)"
 
         self.prolog.retractall(query_string_symptom)
-
         self.prolog.retract(query_string_parish)
-
-        print(list(self.prolog.query(f"has_symptoms({self.patient_name, X})")))
+        self.prolog.retract(query_string_temp)
+        self.prolog.retract(query_string_mask)
+        self.prolog.retract(query_string_travel)
+        self.prolog.retract(query_string_sanitize)
+        self.prolog.retract(query_string_party)
