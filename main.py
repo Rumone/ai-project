@@ -78,7 +78,7 @@ def sendResults():
 
     # messagebox.showinfo("Pending", "I am processing your information")
     form_values = getFormValues()
-    covid_ai = CovidAIBrigde(form_values["patient_name"])
+    covid_ai = CovidAIBrigde(form_values["patient_name"],True)
     covid_ai.store_patient_activities(
         form_values["wears_mask"], form_values["travels"], form_values["sanitizes"], form_values["parties"])
     covid_ai.store_temperature(form_values["temp"])
