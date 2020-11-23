@@ -1,5 +1,6 @@
 from patient_data_store import PatientDataStore
 from user_input_ui import UserInputUI
+from update import UpdateUI
 import tkinter as tk
 from PIL import ImageTk, Image
 
@@ -52,10 +53,8 @@ class MainUI (tk.Frame):
 
         tk.Button(self.menu_frame, text="Get tested", height=2, width=10, bg="#067924", fg="#fff", activebackground='#e5625e',
                   relief=tk.FLAT, command=self.get_tested).pack(pady=5)
-        tk.Button(self.menu_frame, text="View Pateints", height=2, width=20, bg="#067924", fg="#fff", activebackground='#e5625e',
-                  relief=tk.FLAT).pack(pady=5)
         tk.Button(self.menu_frame, text="Update knowledge Base", height=2, width=30, bg="#067924", fg="#fff", activebackground='#e5625e',
-                  relief=tk.FLAT).pack(pady=5)
+                  relief=tk.FLAT, command=self.update_knowledge_base).pack(pady=5)
 
         tk.Label(self.disclaimer_frame, text="The diagnosis here is generated based on statistics from research into COVID-19.", font=(
             "poppints", 10), bg="#333", fg="#fff").pack()
@@ -67,6 +66,10 @@ class MainUI (tk.Frame):
     def get_tested(self):
         self.newWindow = tk.Toplevel(self.master)
         self.app = UserInputUI(self.newWindow)
+    
+    def update_knowledge_base(self):
+        self.newWindow1 = tk.Toplevel(self.master)
+        self.app = UpdateUI(self.newWindow1)
 
     def __insert_logo_image(self):
         """
