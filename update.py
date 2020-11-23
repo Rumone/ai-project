@@ -1,4 +1,4 @@
-import tkinter as tk 
+import tkinter as tk
 from tkinter import messagebox
 from PIL import ImageTk, Image
 
@@ -25,15 +25,17 @@ ParishList = [
     "St. Elizabeth",
 ]
 
+
 class UpdateUI(tk.Frame):
     """
     Host all functions related to the main user interface
     """
+
     def __init__(self, master):
         super().__init__(master)
         self.master = master
         master.title('Update Expert System')
-        master.resizable(0,0)
+        master.resizable(0, 0)
 
         # INITIALIZE FRAMES
         self.header_frame = tk.Frame(self.master)
@@ -97,7 +99,7 @@ class UpdateUI(tk.Frame):
             TEXT_FONT, TEXT_FONT_SIZE), padx=5, bg="#333", fg="#fff").grid(row=0, column=1, sticky=tk.W)
 
         self.parish_options.grid(row=2, column=0, sticky=tk.W, padx=10)
-    
+
     def __input_validation(self):
         """
         Validate user input on UI
@@ -113,7 +115,7 @@ class UpdateUI(tk.Frame):
             messagebox.showinfo("You missed a field",
                                 "Number of Parish Cases field is required")
             return False
-        
+
         if not(self.country_cases.get() == ''):
             try:
                 int(self.country_cases.get())
@@ -127,7 +129,7 @@ class UpdateUI(tk.Frame):
             return False
 
         return True
-    
+
     def getInfo(self):
         """
         Submit all values to covid expert system
@@ -141,10 +143,15 @@ class UpdateUI(tk.Frame):
         country_case = form_values["country_cases"]
 
         calc_chance = float(parish_case)/float(country_case)
-        print(calc_chance)
+        if "st." in parish:
+            parish = parish.split(" ")
+            parish[0] = "saint"
+            parish = "_".join(parish)
         messagebox.showinfo(
-                "Results", "Parish information updated successfully")        
-        self.update_database(calc_chance, parish)
+            "Results", "Parish information updated successfully")
+
+        self.open_db_connection()
+        self.update_database(calc_chance, parish.lower())
 
     def update_database(self, chance, parish):
         try:
@@ -154,14 +161,13 @@ class UpdateUI(tk.Frame):
             self.con.commit()
         except:
             print("Error occured updating database")
-        
+
     def open_db_connection(self):
         try:
             self.con = sqlite3.connect("covidAi.db")
             print("[Connection established]")
         except Error:
             print(Error)
-    
 
     def __input_form_values(self):
         parish_val = self.parish.get()
@@ -173,7 +179,7 @@ class UpdateUI(tk.Frame):
             "parish_cases": parish_case_val,
             "country_cases": country_case_val,
         }
-    
+
     def __insert_logo_image(self):
         """
         Insert the application logo into the main ui
@@ -183,7 +189,8 @@ class UpdateUI(tk.Frame):
         self.logo = ImageTk.PhotoImage(Image.open("assets\\LOGO.png"))
         tk.Label(self.header_frame, image=self.logo, bg="#fff").pack()
 
+
 if __name__ == '__main__':
     root = tk.Tk()
     app = UpdateUI(master=root)
-    app.mainloop()    
+    app.mainloop()
