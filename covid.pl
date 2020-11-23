@@ -37,34 +37,35 @@ parish(saint_thomas).
 parish(saint_andrew).
 
 % percentage of the number of covid cases per parish
-% the values here are random as of current
+% the values used are based on what percentage of the number of active cases comes from each parish
+% the values for Kingston and St Andrew were given as on but represented separately
 
-% kingston - 40%
-covid_cases(kingston, 0.8).
-% hanover - 10%
-covid_cases(hanover, 0.1).
-% trelawny - 20%
-covid_cases(trelawny, 0.2).
-% clarendon - 10%
-covid_cases(clarendon, 0.1).
-% manchester - 10%
-covid_cases(manchester, 0.1).
-% portland - 50%
-covid_cases(portland, 0.5).
-% st. ann - 20%
-covid_cases(saint_ann, 0.2).
-% st. mary - 10%
-covid_cases(saint_mary, 0.1).
-% st. james - 10%
-covid_cases(saint_james, 0.1).
-% st. elizabeth - 30%
-covid_cases(saint_elizabeth, 0.3).
-% st. catherine - 40%
-covid_cases(saint_catherine, 0.4).
-% st. thomas - 10%
-covid_cases(saint_thomas, 0.1).
-% st. andrew - 10%
-covid_cases(saint_andrew, 0.1).
+% kingston - 36.16%
+covid_cases(kingston, 0.3616).
+% hanover - 2.07%
+covid_cases(hanover, 0.0207).
+% trelawny - 2.78%
+covid_cases(trelawny, 0.0278).
+% clarendon - 6.77%
+covid_cases(clarendon, 0.0677).
+% manchester - 8.4%
+covid_cases(manchester, 0.084).
+% portland - 0.8%
+covid_cases(portland, 0.008).
+% st. ann - 4.59%
+covid_cases(saint_ann, 0.0459).
+% st. mary - 2.64%
+covid_cases(saint_mary, 0.0264).
+% st. james - 16.47%
+covid_cases(saint_james, 0.1647).
+% st. elizabeth - 3.53%
+covid_cases(saint_elizabeth, 0.0353).
+% st. catherine - 15.63%
+covid_cases(saint_catherine, 0.1563).
+% st. thomas - 1.88%
+covid_cases(saint_thomas, 0.0188).
+% st. andrew - 36.16%
+covid_cases(saint_andrew, 0.3616).
 
 
 % ---------------------
@@ -81,9 +82,10 @@ perc_symptoms(Name, Chance) :-
     aggregate_all(count, symptom(_), S_Count),
     Chance is P_Count/S_Count.
 
+% Chance for temps <100.4 is 20% since there exist patients that are asymptomatic
 perc_temperature(Name, Chance) :- 
     patient_temperature(Name, Temp),
-    (Temp >= 38) -> Chance is 0.8; Chance is 0.
+    (Temp >= 100.4) -> Chance is 0.8; Chance is 0.2.
 
 % percentage calculation based on patient actions
 % Your actions is also a factor of the parish you are from

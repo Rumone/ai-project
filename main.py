@@ -14,7 +14,7 @@ def validation():
         return False
     if not(temp.get() == ''):
         try:
-            int(temp.get())
+            float(temp.get())
         except:
             messagebox.showinfo("Invalid temperature value",
                                 "The value you entered for your temperature is invalid")
@@ -34,7 +34,7 @@ def getFormValues():
     travel_val = travel.get()
     sanitize_val = sanitize.get()
     party_val = party.get()
-    temp_val = temp.get()
+    temp_val = (float(temp.get()) * 9/5) + 32
     symptoms = []
     # deal with symptoms
     if (symptom1.get() == 1):
@@ -268,7 +268,7 @@ Checkbutton(section_4_frame, variable=symptom11, onvalue=1,
             offvalue=0, text="Diarrhea").grid(row=2, column=2, sticky=W)
 
 
-Label(section_5_frame, text="What is your temperature?", font=(
+Label(section_5_frame, text="What is your temperature? (°C)", font=(
     TEXT_FONT, TEXT_FONT_SIZE)).grid(row=0, column=0, padx=10, sticky=W)
 Entry(section_5_frame, textvariable=temp, relief=GROOVE, font=(
     TEXT_FONT, TEXT_FONT_SIZE)).grid(row=1, column=0, padx=10, sticky=W)
