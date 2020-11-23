@@ -59,7 +59,7 @@ class PatientDataStore():
 
     def __open_connection(self):
         try:
-            self.con = sqlite3.connect("patient.db")
+            self.con = sqlite3.connect("covidAi.db")
             print("[Connection established]")
         except Error:
             print(Error)
