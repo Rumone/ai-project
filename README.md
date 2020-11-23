@@ -1,12 +1,13 @@
-# Prolog Pyswip Covid AI Jamaica 
-
-
+# Covid Expert System for Jamaica 
+<p align="center">
+<img src="./logo.svg" alt="COVID AI logo" >
+</p>
 
 This project was done for the University of Technology Jamaica as a submission for the course **CMP4011** Aritificial Intelligence.
 
 ## Technologies 💻
-- Prolog - knowledge base
-- Pyswip - Interact with prolog using python
+- [PROLOG](https://www.swi-prolog.org/) - knowledge base 
+- [Pyswip](https://github.com/yuce/pyswip) - Interact with prolog using python
 - Tkinter - GUI
 - Python
 
