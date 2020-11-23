@@ -1,4 +1,6 @@
 from pyswip import Prolog
+import sqlite3
+from sqlite3 import Error
 
 
 class CovidAIBrigde:
@@ -115,3 +117,29 @@ class CovidAIBrigde:
         self.prolog.retract(query_string_travel)
         self.prolog.retract(query_string_sanitize)
         self.prolog.retract(query_string_party)
+
+    def __open_db_connection(self):
+        """
+        Open connection to database
+        """
+        try:
+            self.con = sqlite3.connect("covidAi.db")
+            print("[Connection established]")
+        except Error:
+            print(Error)
+
+    def __get_parish_statistics(self):
+        cursorObj = self.con.cursor()
+        cursorObj.execute("SELECT * FROM parishes")
+        rows = list(cursorObj.fetchall())
+        return rows
+
+    def update_knowledgebase(self):
+        self.__open_db_connection()
+        statistics = self.__get_parish_statistics()
+        for (id, parish, chance) in statistics:
+            parish_assersion = f"covid_cases({parish}, {chance})"
+            print(parish_assersion)
+            self.prolog.asserta(parish_assersion)
+            # test prolog
+            # print(list(self.prolog.query(f"covid_cases({parish}, X)")))

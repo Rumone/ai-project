@@ -4,6 +4,26 @@ import tkinter as tk
 from PIL import ImageTk, Image
 
 
+import sqlite3
+from sqlite3 import Error
+
+covid_cases_parish = [
+    ('kingston', 0.3616),
+    ('hanover', 0.0207),
+    ('trelawny', 0.0278),
+    ('clarendon', 0.0677),
+    ('manchester', 0.084),
+    ('portland', 0.008),
+    ('saint_ann', 0.0459),
+    ('saint_mary', 0.0264),
+    ('saint_james', 0.1647),
+    ('saint_elizabeth', 0.0353),
+    ('saint_catherine', 0.1563),
+    ('saint_thomas', 0.0188),
+    ('saint_andrew', 0.3616)
+]
+
+
 class MainUI (tk.Frame):
     """
     The applicatins main user interface
@@ -61,10 +81,50 @@ class MainUI (tk.Frame):
         pass
 
 
-def main():
+def create_parish_table(con):
+    """
+    Creates table with statistical information for each parish
+    """
+    parish_table = "CREATE TABLE IF NOT EXISTS parishes(id integer PRIMARY KEY, parish text, chance integer)"
+    cursorObj = con.cursor()
+    cursorObj.execute(parish_table)
+    con.commit()
 
+
+def open_db_connection():
+    try:
+        con = sqlite3.connect("covidAi.db")
+        print("[Connection established]")
+        return con
+    except Error:
+        print(Error)
+
+
+def parish_statistics_seeder(con):
+    for (parish, case) in covid_cases_parish:
+        parish_info = f"INSERT INTO parishes(parish, chance) VALUES ('{parish}', {case})"
+        cursorObj = con.cursor()
+        cursorObj.execute(parish_info)
+        con.commit()
+
+
+def parish_table_empty(con):
+    cursorObj = con.cursor()
+    cursorObj.execute("SELECT * FROM parishes")
+    rows = list(cursorObj.fetchall())
+    if (len(rows) == 0):
+        return True
+    return False
+
+
+def main():
     # create instance of patient data store
     PatientDataStore()
+    connection = open_db_connection()
+
+    create_parish_table(connection)
+    if (parish_table_empty(connection)):
+        parish_statistics_seeder(connection)
 
     root = tk.Tk()
     app = MainUI(master=root)
