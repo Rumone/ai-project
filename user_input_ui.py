@@ -184,7 +184,7 @@ class UserInputUI(tk.Frame):
                        offvalue=0, text="Diarrhea").grid(row=2, column=2, sticky=tk.W)
 
         self.temp = tk.StringVar()
-        tk.Label(self.section_5_frame, text="What is your temperature?", font=(
+        tk.Label(self.section_5_frame, text="What is your temperature? (°C)", font=(
             TEXT_FONT, TEXT_FONT_SIZE)).grid(row=0, column=0, padx=10, sticky=tk.W)
         tk.Entry(self.section_5_frame, textvariable=self.temp, relief=tk.GROOVE, font=(
             TEXT_FONT, TEXT_FONT_SIZE)).grid(row=1, column=0, padx=10, sticky=tk.W)
@@ -210,7 +210,7 @@ class UserInputUI(tk.Frame):
             return False
         if not(self.temp.get() == ''):
             try:
-                int(self.temp.get())
+                float(self.temp.get())
             except:
                 messagebox.showinfo("Invalid temperature value",
                                     "The value you entered for your temperature is invalid")
@@ -266,7 +266,7 @@ class UserInputUI(tk.Frame):
         travel_val = self.travel.get()
         sanitize_val = self.sanitize.get()
         party_val = self.party.get()
-        temp_val = self.temp.get()
+        temp_val = (float(self.temp.get()) * 9/2 ) + 32
         symptoms = []
         # deal with symptoms
         if (self.symptom1.get() == 1):

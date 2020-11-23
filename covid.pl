@@ -83,10 +83,9 @@ perc_symptoms(Name, Chance) :-
     aggregate_all(count, symptom(_), S_Count),
     Chance is P_Count/S_Count.
 
-% Chance for temps <100.4 is 20% since there exist patients that are asymptomatic
 perc_temperature(Name, Chance) :- 
     patient_temperature(Name, Temp),
-    (Temp >= 100.4) -> Chance is 0.8; Chance is 0.2.
+    (Temp >= 38) -> Chance is 0.8; Chance is 0.
 
 % percentage calculation based on patient actions
 % Your actions is also a factor of the parish you are from
@@ -132,4 +131,5 @@ has_covid(Name, Perc) :-
     perc_symptoms(Name, Symptom_Value),
     perc_temperature(Name, Temp_Value),
     perc_actions(Name, Actions_Value),
-    Perc is (Parish_Value + Symptom_Value + Temp_Value + Actions_Value)/4.
+    Perc is (((Symptom_Value + Temp_Value) * 0.6) + ((Actions_Value + Parish_Value) * 0.4)) * 100).
+    %Perc is (Parish_Value + Symptom_Value + Temp_Value + Actions_Value)/4.
